@@ -1,0 +1,9 @@
+.page { max-width: var(--content-width); margin: 0 auto; padding: 1rem 0; }
+.title { font-size: 2rem; font-weight: 800; color: var(--foreground); margin-bottom: 1rem; }
+.resultCount { font-size: 0.9375rem; color: var(--muted); margin-bottom: 1.5rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+.empty { text-align: center; padding: 3rem 0; }
+.empty p { font-size: 1.125rem; color: var(--muted); margin-bottom: 0.5rem; }
+.tip { font-size: 0.9375rem !important; color: var(--muted) !important; }
+.hint { font-size: 1rem; color: var(--muted); padding: 2rem 0; }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }

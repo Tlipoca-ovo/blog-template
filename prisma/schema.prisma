@@ -1,0 +1,215 @@
+// Prisma 数据库模型定义
+// 高度可自定义博客模版
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ============================================
+// 管理员用户
+// ============================================
+model AdminUser {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @default("admin")
+  password  String
+  nickname  String   @default("博主")
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+// ============================================
+// 文章 / 页面
+// ============================================
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  content     String   @default("")
+  description String?  // 文章描述/摘要
+  coverImage  String?  // 封面图 URL
+  status      String   @default("draft") // draft | published
+  views       Int      @default(0)
+  isPage      Boolean  @default(false)  // true=作为博客文章中的单页面使用（轻量简单页面）
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  authorId    Int
+  author      AdminUser      @relation(fields: [authorId], references: [id])
+  categories  PostCategory[]
+  tags        PostTag[]
+  comments    Comment[]
+
+  @@index([status])
+  @@index([authorId])
+}
+
+// 显式多对多：文章-分类
+model PostCategory {
+  postId     Int
+  categoryId Int
+  post       Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([postId, categoryId])
+}
+
+// 显式多对多：文章-标签
+model PostTag {
+  postId Int
+  tagId  Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+// ============================================
+// 分类和标签
+// ============================================
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  posts       PostCategory[]
+
+  @@index([slug])
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  color     String?  // 标签颜色，如 #3B82F6
+  createdAt DateTime @default(now())
+  posts     PostTag[]
+
+  @@index([slug])
+}
+
+// ============================================
+// 自定义独立页面（通过后台管理 slug 为 about/links 等的系统页面）
+// ============================================
+model Page {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  content   String   @default("")
+  isDefault Boolean  @default(false) // true=系统默认页面（about/links）
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+}
+
+// ============================================
+// 友链
+// ============================================
+model FriendLink {
+  id          Int      @id @default(autoincrement())
+  name        String
+  url         String
+  description String?
+  logo        String?  // 友链 logo/头像
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================
+// 评论
+// ============================================
+model Comment {
+  id         Int      @id @default(autoincrement())
+  content    String
+  authorName String
+  authorEmail String?
+  authorUrl  String?
+  isApproved Boolean  @default(false)  // 是否审核通过
+  isPinned   Boolean  @default(false) // 是否置顶
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  postId     Int
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  parentId   Int?
+  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies    Comment[] @relation("CommentReplies")
+
+  @@index([postId])
+  @@index([isApproved])
+  @@index([parentId])
+}
+
+// ============================================
+// 站点配置（单一全局记录，通过 upsert 确保只有一条）
+// ============================================
+model SiteSettings {
+  id        String   @id @default(cuid())
+
+  // 站点信息
+  siteName    String @default("我的博客")
+  siteUrl     String @default("")
+  siteLogo    String @default("")
+  siteFavicon String @default("")
+  siteDescription String @default("")
+
+  // 主题
+  themeMode   String @default("light") // light | dark | auto
+  themeColors String @default("{}")    // JSON: { primary, secondary, accent, ... }
+
+  // 字体
+  fonts       String @default("{}")     // JSON: { heading, body, code }
+
+  // 布局
+  layout      String @default("{}")    // JSON: { sidebar, nav, footer, ... }
+
+  // 首页模块（哪些模块显示、排序）
+  homepageModules String @default("[]") // JSON: [{ name, enabled, label, sort }]
+
+  // SEO
+  seoConfig   String @default("{}")    // JSON: { titleTemplate, keywords, robots, ... }
+
+  // 代码注入
+  headCustom  String @default("")       // 自定义 head 标签（统计/验证等）
+  footerCustom String @default("")    // footer 自定义代码
+  customCSS   String @default("")     // 全局自定义 CSS
+
+  // 导航配置
+  navConfig   String @default("[]")   // JSON: [{ label, url, icon, newTab }]
+
+  // 评论设置
+  commentConfig String @default("{}") // JSON: { enabled, requireApproval, ... }
+
+  // 社交链接
+  socialLinks String @default("[]")   // JSON: [{ platform, url, icon }]
+
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// 键值配置（用于主题、模块、导航等细粒度配置）
+// ============================================
+model Config {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}

@@ -1,0 +1,8 @@
+.page { max-width: var(--content-width); margin: 0 auto; padding: 1rem 0; }
+.title { font-size: 2rem; font-weight: 800; color: var(--foreground); margin-bottom: 1.5rem; }
+.content { font-size: 1rem; line-height: 1.8; color: var(--foreground); }
+.content h2 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 1rem; }
+.content p { margin-bottom: 1em; }
+.content ul { padding-left: 1.5em; margin-bottom: 1em; }
+.content li { margin-bottom: 0.5em; }
+.defaultAbout p { margin-bottom: 1em; }

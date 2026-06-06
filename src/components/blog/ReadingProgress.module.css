@@ -1,0 +1,16 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9999;
+  background-color: transparent;
+}
+
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 50ms linear;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--primary) 50%, transparent);
+}
