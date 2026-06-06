@@ -1,0 +1,35 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 100%;
+  gap: 2rem;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.content.withSidebar {
+  max-width: calc(var(--content-width) + 2rem);
+}
+
+@media (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+  }
+
+  .content.withSidebar {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,45 @@
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.25rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--transition-fast);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover .name {
+  color: var(--primary);
+}
+
+.name {
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  transition: color var(--transition-fast);
+}
+
+.count {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background-color: var(--muted);
+  color: var(--card-foreground);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.empty {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-align: center;
+  padding: 1rem 0;
+}

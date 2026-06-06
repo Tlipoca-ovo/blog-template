@@ -1,0 +1,58 @@
+.toc {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item {
+  line-height: 1.5;
+}
+
+.link {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border-left: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.link:hover {
+  color: var(--foreground);
+  background-color: var(--muted);
+}
+
+.link.active {
+  color: var(--primary);
+  border-left-color: var(--primary);
+  background-color: color-mix(in srgb, var(--primary) 5%, transparent);
+}
+
+.level3 .link {
+  padding-left: 1.25rem;
+  font-size: 0.8125rem;
+}
+
+.level4 .link {
+  padding-left: 2rem;
+  font-size: 0.75rem;
+}
