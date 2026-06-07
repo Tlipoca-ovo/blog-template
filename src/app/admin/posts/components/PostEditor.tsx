@@ -272,7 +272,7 @@ export function PostEditor({ mode, post, categories, tags }: PostEditorProps) {
           </div>
 
           <div className={styles.panel}>
-            <h3 className={styles.panelTitle}>封面图片 URL</h3>
+            <h3 className={styles.panelTitle}>封面图片</h3>
             <input
               type="url"
               value={coverImage}
@@ -280,6 +280,7 @@ export function PostEditor({ mode, post, categories, tags }: PostEditorProps) {
               placeholder="https://example.com/cover.jpg"
               className={styles.panelInput}
             />
+            <span className={styles.imageHint}>建议 1200×675px（16:9），大小不超过 500KB</span>
             {coverImage && (
               <Image
                 src={coverImage}

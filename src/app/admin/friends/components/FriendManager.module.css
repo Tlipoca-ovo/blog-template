@@ -248,6 +248,13 @@
   gap: 0.5rem;
 }
 
+.imageHint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
 @media (max-width: 640px) {
   .formGrid {
     grid-template-columns: 1fr;

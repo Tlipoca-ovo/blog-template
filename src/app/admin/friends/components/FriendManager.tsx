@@ -136,6 +136,7 @@ export function FriendManager({ initialFriends }: FriendManagerProps) {
               <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="网站名称" className={styles.input} />
               <input type="url" value={newUrl} onChange={(e) => setNewUrl(e.target.value)} placeholder="网站 URL" className={styles.input} />
               <input type="url" value={newAvatar} onChange={(e) => setNewAvatar(e.target.value)} placeholder="头像 URL（可选）" className={styles.input} />
+              <span className={styles.imageHint}>建议 80×80px（正方形），不超过 50KB</span>
               <input type="text" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} placeholder="网站描述（可选）" className={`${styles.input} ${styles.fullWidth}`} />
             </div>
             <button onClick={handleCreate} disabled={saving} className={styles.saveButton}>
@@ -164,6 +165,8 @@ export function FriendManager({ initialFriends }: FriendManagerProps) {
                       <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="网站名称" className={styles.input} />
                       <input type="url" value={editUrl} onChange={(e) => setEditUrl(e.target.value)} placeholder="URL" className={styles.input} />
                       <input type="url" value={editAvatar} onChange={(e) => setEditAvatar(e.target.value)} placeholder="头像 URL" className={styles.input} />
+                      <span className={styles.imageHint}>建议 80×80px（正方形），不超过 50KB</span>
+                      <span className={styles.imageHint}>建议 80×80px（正方形），不超过 50KB</span>
                       <input type="text" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} placeholder="描述" className={`${styles.input} ${styles.fullWidth}`} />
                     </div>
                     <div className={styles.editActions}>
