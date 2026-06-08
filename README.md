@@ -48,6 +48,8 @@ npm run dev
 
 ## 部署到 Cloudflare（免费托管）
 
+> 💡 **首次部署请查看详细教程** → [docs/DEPLOY.md](./docs/DEPLOY.md)，每一步都有截图说明。
+
 ### 第一步：注册 Cloudflare
 
 登录 [dash.cloudflare.com](https://dash.cloudflare.com)，免费注册账号。
