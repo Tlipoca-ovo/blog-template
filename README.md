@@ -59,16 +59,13 @@ npm run dev
 3. 点击 **Create Database**，起个名字，比如 `blog-db`
 4. 创建完成后，复制显示的 **Database ID**
 
-### 第三步：修改配置文件
+### 第三步：复制配置文件
 
-编辑项目根目录的 `wrangler.toml`，把 `<你的数据库 ID>` 换成刚才复制的 ID：
-
-```toml
-[[d1_databases]]
-binding = "D1"
-database_name = "blog-db"
-database_id = "这里填你的数据库ID"
+```bash
+cp wrangler.toml.example wrangler.toml
 ```
+
+然后编辑 `wrangler.toml`，把数据库名称和 ID 换成你自己的（在 Cloudflare Dashboard 的 D1 页面复制）。
 
 ### 第四步：推送数据库结构
 

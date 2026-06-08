@@ -1,0 +1,30 @@
+name = "blog-template-api"
+main = ".open-next/worker.js"
+compatibility_date = "2026-06-07"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+[[services]]
+binding = "WORKER_SELF_REFERENCE"
+service = "blog-template-api"
+
+[[d1_databases]]
+binding = "D1"
+# 修改这里为你的 D1 数据库名称
+database_name = "你的数据库名称"
+# 修改这里为你的 D1 数据库 ID（在 Cloudflare Dashboard 的 D1 页面复制）
+database_id = "你的数据库ID"
+migrations_dir = "migrations"
+migrations_pattern = "migrations/*/migration.sql"
+
+# 环境变量（密钥不要写在这里，用 wrangler secret put 注入）
+[vars]
+TZ = "Asia/Shanghai"
+NODE_ENV = "production"
+
+# 部署前需要运行以下命令设置密钥：
+# npx wrangler secret put JWT_SECRET
+# npx wrangler secret put ADMIN_PASSWORD

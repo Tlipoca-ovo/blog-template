@@ -52,4 +52,5 @@ pnpm-debug.log*
 # Cloudflare
 # ============================================
 .wrangler/
-wrangler.toml  # 包含数据库 ID，请勿提交到公开仓库
+wrangler.toml           # 包含数据库 ID，请勿提交
+!wrangler.toml.example # 但保留模板供他人参考
