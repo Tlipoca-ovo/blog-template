@@ -104,7 +104,7 @@ metadata:
 - **需手动创建**: https://github.com/new
   - 仓库名: `myblog-private`
   - 描述: 我的博客实例 - 包含真实配置和 Cloudflare 连接
-  - 可见性: **私有**
+  - **注意**: 先创建**公开**仓库，连接 Cloudflare 后再改为私有
 - **待完成**:
   1. 在 GitHub 创建私有仓库
   2. 将 `E:\myblog` 与新仓库关联
@@ -113,20 +113,33 @@ metadata:
 
 ---
 
-## GitHub 私有仓库创建步骤
+## GitHub 仓库创建步骤
+
+### 1. 创建公开仓库（用于连接 Cloudflare）
 
 1. 访问 https://github.com/new
 2. 创建新仓库：
    - Repository name: `myblog-private`
    - Description: `我的博客实例 - 包含真实配置和 Cloudflare 连接`
-   - Private ✅
+   - **先保持 Public**（Cloudflare Pages 需要公开仓库才能连接 Git）
    - 不要勾选 "Initialize this repository with a README"
-3. 创建后，在 `E:\myblog` 执行：
-   ```bash
-   cd E:\myblog
-   git remote add origin git@github.com:Tlipoca-ovo/myblog-private.git
-   git push -u origin main --force
-   ```
+
+### 2. 将 E:\myblog 推送到新仓库
+
+```bash
+cd E:\myblog
+git remote set-url origin git@github.com:Tlipoca-ovo/myblog-private.git
+git push -u origin main --force
+```
+
+### 3. 连接 Cloudflare Pages（详见下方）
+
+### 4. 部署稳定后改为私有
+
+在 GitHub 仓库设置中：
+- Settings → Danger Zone → Change visibility → **Private**
+
+---
 
 ## Cloudflare Pages 连接步骤
 
