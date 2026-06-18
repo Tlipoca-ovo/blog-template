@@ -9,10 +9,10 @@ metadata:
 
 ## 目录结构
 
-| 路径 | 用途 |
-|------|------|
-| `E:\ai-web\博客模版` | 主项目（GitHub 同步源） |
-| `E:\myblog` | 实验部署文件夹 |
+| 路径 | 用途 | GitHub 仓库 |
+|------|------|-------------|
+| `E:\ai-web\博客模版` | 博客模版（公开） | [Tlipoca-ovo/blog-template](https://github.com/Tlipoca-ovo/blog-template) |
+| `E:\myblog` | 我的博客实例（私有） | **需手动创建** |
 
 ## 工作流程
 
@@ -40,12 +40,18 @@ metadata:
    ```bash
    npm run dev
    ```
-   - 访问 http://localhost:3000 检查前台
-   - 访问 http://localhost:3000/admin 检查后台
 
-5. **Cloudflare 部署测试**
-   - 按照 README/DEPLOY.md 部署到 Cloudflare
-   - 观察生产环境问题
+5. **配置真实环境变量**
+   ```bash
+   cp .env.example .env
+   # 编辑 .env 填入真实值
+   ```
+
+6. **配置 Cloudflare**
+   ```bash
+   cp wrangler.toml.example wrangler.toml
+   # 编辑 wrangler.toml 填入真实值
+   ```
 
 ### 第二阶段：问题修复与同步
 
@@ -81,54 +87,78 @@ metadata:
    npm run deploy:cloudflare
    ```
 
-## 当前状态
+---
 
-### 主项目 (E:\ai-web\博客模版)
-- 分支: main
-- 最新提交: `6114b5d` - 重构: 认证系统迁移至 middleware
-- 已同步到 GitHub
+## 当前状态 (2026-06-19)
 
-### 实验文件夹 (E:\myblog)
-- 已创建并 clone 完成
-- npm install: 成功
-- prisma db push + seed: 成功
-- npm run dev: 成功
+### ✅ 公开博客模版仓库 (blog-template)
+- **地址**: https://github.com/Tlipoca-ovo/blog-template
+- **分支**: main
+- **最新提交**: `d1ba85a` - 安全: 从Git历史移除wrangler.toml
+- **安全措施**:
+  - wrangler.toml 已从 Git 历史移除
+  - .gitignore 添加了 wrangler.toml 忽略规则
+  - wrangler.toml.example 作为部署模板
+
+### ⏳ 私有博客实例仓库 (myblog-private)
+- **需手动创建**: https://github.com/new
+  - 仓库名: `myblog-private`
+  - 描述: 我的博客实例 - 包含真实配置和 Cloudflare 连接
+  - 可见性: **私有**
+- **待完成**:
+  1. 在 GitHub 创建私有仓库
+  2. 将 `E:\myblog` 与新仓库关联
+  3. 推送到私有仓库
+  4. 连接 Cloudflare Pages
+
+---
+
+## GitHub 私有仓库创建步骤
+
+1. 访问 https://github.com/new
+2. 创建新仓库：
+   - Repository name: `myblog-private`
+   - Description: `我的博客实例 - 包含真实配置和 Cloudflare 连接`
+   - Private ✅
+   - 不要勾选 "Initialize this repository with a README"
+3. 创建后，在 `E:\myblog` 执行：
+   ```bash
+   cd E:\myblog
+   git remote add origin git@github.com:Tlipoca-ovo/myblog-private.git
+   git push -u origin main --force
+   ```
+
+## Cloudflare Pages 连接步骤
+
+1. 访问 https://dash.cloudflare.com
+2. Workers & Pages → 创建应用程序
+3. 选择 "Connect a Git repository"
+4. 选择 `myblog-private` 仓库
+5. 设置：
+   - 构建命令: `npm run build:cloudflare`
+   - 输出目录: `.open-next`
+6. 设置环境变量：
+   - DATABASE_URL
+   - JWT_SECRET
+7. 部署！
+
+---
 
 ## 测试结果 (2026-06-19)
 
 ### 本地开发测试 ✅
-- 前台首页: 正常
-- 管理后台登录: 正常
-- 仪表盘: 正常
-- 文章管理: 正常
-- 主题定制: 正常
-- 控制台警告: 仅有一个 middleware 废弃警告（Next.js 16 兼容性）
+| 功能 | 状态 |
+|------|------|
+| 前台首页 | 正常 |
+| 管理后台登录 | 正常 |
+| 仪表盘 | 正常 |
+| 文章管理 | 正常 |
+| 主题定制 | 正常 |
 
 ### Cloudflare 构建测试 ✅
 - `npm run build:cloudflare`: 成功
-- 构建输出: `.open-next` 目录
-- 警告: OpenNext 在 Windows 上不完全兼容，建议使用 WSL
-- 预览: Windows 环境下 wrangler 命令有兼容性问题
+- 预览: Windows 环境有限制
 
 ### 已知问题
 1. **middleware 废弃警告**: Next.js 16 中 middleware 文件约定已废弃，建议未来迁移到 proxy
 2. **Windows 构建警告**: OpenNext 在 Windows 上不完全兼容
-
-## Cloudflare Pages 部署指南
-
-由于 Windows 环境预览有限，建议：
-1. 连接 GitHub 到 Cloudflare Pages 实现自动部署
-2. 或使用 WSL 进行本地预览
-
-### 自动部署步骤
-1. Cloudflare Dashboard → Workers & Pages → 创建应用
-2. 选择 "Connect a Git repository"
-3. 设置构建命令: `npm run build:cloudflare`
-4. 设置输出目录: `.open-next`
-
-## 注意事项
-
-- **修改代码只在主项目进行**
-- **实验文件夹仅用于观察和验证**
-- **所有修复必须通过 GitHub 同步**
-- **确认主项目无误后再更新实验文件夹**
