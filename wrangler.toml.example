@@ -1,5 +1,4 @@
 # Cloudflare Pages 配置文件
-# 复制此文件为 wrangler.toml 并填入真实值
 name = "blog-template"
 pages_build_output_dir = ".open-next"
 compatibility_date = "2026-06-07"
